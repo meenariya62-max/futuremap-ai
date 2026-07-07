@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prediction History – FutureMap AI</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .history-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+    .history-card:hover {
+      border-color: var(--border);
+      transform: translateX(4px);
+      box-shadow: var(--shadow);
+    }
+    .history-num {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: rgba(108,99,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-size: 14px; font-weight: 800;
+      color: var(--accent-primary);
+      flex-shrink: 0;
+    }
+    .history-main { flex: 1; min-width: 0; }
+    .history-career { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+    .history-skills { font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .history-right { text-align: right; flex-shrink: 0; }
+    .history-conf { font-family: var(--font-display); font-size: 18px; font-weight: 800; color: var(--accent-primary); }
+    .history-date { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main-content">
+    <header class="topbar">
+      <div class="page-title">🕓 Prediction History</div>
+      <div class="topbar-actions">
+        <button class="theme-toggle" id="themeToggle" title="Toggle Theme">☀️</button>
+        <a class="topbar-btn" href="predict.html" data-tooltip="New Prediction">⚡</a>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <!-- Summary cards -->
+      <div class="stats-grid" style="margin-bottom:28px">
+        <div class="stat-card s1">
+          <div class="stat-icon">🔮</div>
+          <div class="stat-value" id="totalCount">—</div>
+          <div class="stat-label">Total Predictions</div>
+        </div>
+        <div class="stat-card s2">
+          <div class="stat-icon">🏆</div>
+          <div class="stat-value" id="topCareer" style="font-size:14px;padding-top:4px">—</div>
+          <div class="stat-label">Most Predicted</div>
+        </div>
+        <div class="stat-card s3">
+          <div class="stat-icon">📊</div>
+          <div class="stat-value" id="avgConf">—</div>
+          <div class="stat-label">Avg Confidence</div>
+        </div>
+        <div class="stat-card s4">
+          <div class="stat-icon">📅</div>
+          <div class="stat-value" id="lastDate" style="font-size:14px;padding-top:4px">—</div>
+          <div class="stat-label">Last Prediction</div>
+        </div>
+      </div>
+
+      <div class="grid-12">
+        <!-- History list -->
+        <div>
+          <div class="section-header">
+            <span class="section-title">All Predictions</span>
+            <button class="btn btn-ghost btn-sm" onclick="clearHistory()">🗑️ Clear All</button>
+          </div>
+          <div id="historyList">
+            <div style="text-align:center;padding:48px;color:var(--text-muted)">
+              <div class="spinner" style="margin:0 auto 12px"></div>
+              Loading history...
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart -->
+        <div class="card" style="align-self:start">
+          <div class="card-header">
+            <span class="card-title">Career Frequency</span>
+            <span class="card-badge badge-purple">Pie</span>
+          </div>
+          <canvas id="historyChart" height="240"></canvas>
+          <div id="historyLegend" style="margin-top:16px;display:flex;flex-direction:column;gap:8px"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="js/sidebar.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  document.getElementById('sidebar').innerHTML = renderSidebar('history.html');
+
+  const API = '/api';
+  const careerIcons = { 'AI Engineer':'🤖','Data Scientist':'📊','Full Stack Developer':'💻','Backend Developer':'⚙️','Frontend Developer':'🎨','DevOps Engineer':'🔧','Data Analyst':'📈','NLP Engineer':'🧠','Computer Vision Engineer':'👁️','Android Developer':'📱','iOS Developer':'🍎','Cybersecurity Engineer':'🔐','Blockchain Developer':'⛓️','Cloud Architect':'☁️','Big Data Engineer':'🌊','UI/UX Designer':'✏️' };
+
+  async function loadHistory() {
+    try {
+      const res = await fetch(`${API}/history`);
+      const data = await res.json();
+      renderHistory(data);
+      renderStats(data);
+      renderPieChart(data);
+    } catch {
+      document.getElementById('historyList').innerHTML = `<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">Backend not running</div><div class="empty-desc">Start Flask on port 5000 to see history</div></div>`;
+    }
+  }
+
+  function renderHistory(history) {
+    const el = document.getElementById('historyList');
+    if (!history.length) {
+      el.innerHTML = `<div class="empty-state"><div class="empty-icon">🔮</div><div class="empty-title">No predictions yet</div><div class="empty-desc"><a href="predict.html" class="btn btn-primary btn-sm" style="margin-top:12px">Make First Prediction</a></div></div>`;
+      return;
+    }
+    el.innerHTML = history.map((h, i) => `
+      <div class="history-card animate-in">
+        <div class="history-num">${i + 1}</div>
+        <div style="font-size:24px">${careerIcons[h.recommended_career] || '💼'}</div>
+        <div class="history-main">
+          <div class="history-career">${h.recommended_career}</div>
+          <div class="history-skills">Skills: ${h.skills}</div>
+        </div>
+        <div class="history-right">
+          <div class="history-conf">${h.confidence}</div>
+          <div class="history-date">${h.date}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderStats(history) {
+    document.getElementById('totalCount').textContent = history.length;
+    if (!history.length) return;
+
+    // Most predicted
+    const freq = {};
+    history.forEach(h => freq[h.recommended_career] = (freq[h.recommended_career] || 0) + 1);
+    const top = Object.entries(freq).sort((a,b) => b[1]-a[1])[0];
+    document.getElementById('topCareer').textContent = top ? top[0] : '—';
+
+    // Avg confidence
+    const avg = history.reduce((sum, h) => sum + parseFloat(h.confidence), 0) / history.length;
+    document.getElementById('avgConf').textContent = `${avg.toFixed(0)}%`;
+
+    // Last date
+    document.getElementById('lastDate').textContent = history[0]?.date?.split(' ')[0] || '—';
+  }
+
+  function renderPieChart(history) {
+    if (!history.length) return;
+    const freq = {};
+    history.forEach(h => freq[h.recommended_career] = (freq[h.recommended_career] || 0) + 1);
+    const labels = Object.keys(freq);
+    const values = Object.values(freq);
+    const colors = ['#6c63ff','#00d4ff','#00e5a0','#ff7849','#ff4fa3','#a78bfa','#34d399','#fbbf24'];
+
+    const ctx = document.getElementById('historyChart');
+    if (window._hChart) window._hChart.destroy();
+    window._hChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels,
+        datasets: [{ data: values, backgroundColor: colors.slice(0, labels.length), borderWidth: 0 }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        cutout: '65%'
+      }
+    });
+
+    document.getElementById('historyLegend').innerHTML = labels.map((l, i) => `
+      <div style="display:flex;align-items:center;gap:8px;font-size:13px">
+        <div style="width:10px;height:10px;border-radius:3px;background:${colors[i]};flex-shrink:0"></div>
+        <span style="color:var(--text-secondary);flex:1">${l}</span>
+        <span style="font-weight:700;color:var(--text-primary)">${values[i]}</span>
+      </div>
+    `).join('');
+  }
+
+  async function clearHistory() {
+    if (!confirm('Clear all prediction history?')) return;
+    // Just reload with empty state (backend keeps file)
+    document.getElementById('historyList').innerHTML = `<div class="empty-state"><div class="empty-icon">✅</div><div class="empty-title">History cleared</div></div>`;
+  }
+
+  loadHistory();
+</script>
+<script src="js/theme.js"></script>
+</body>
+</html>

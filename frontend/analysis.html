@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skill Analysis – FutureMap AI</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main-content">
+    <header class="topbar">
+      <div class="page-title">📊 Skill Gap Analysis</div>
+    </header>
+
+    <main class="page-content">
+      <div class="grid-21">
+        <div class="card" style="align-self:start">
+          <div class="card-header">
+            <span class="card-title">🔍 Analyze Your Skills</span>
+            <span class="card-badge badge-pink">Gap Analysis</span>
+          </div>
+          <form id="analyzeForm">
+            <div class="form-group">
+              <label class="form-label">Enter Your Skills</label>
+              <textarea class="form-textarea" id="analyzeSkills" placeholder="python, sql, machine learning, pandas..." style="min-height:140px"></textarea>
+            </div>
+            <button class="btn btn-primary btn-full" type="submit" id="analyzeBtn">🔍 Run Analysis</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="card-title" style="margin-bottom:16px">What You'll Get</div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;gap:12px;align-items:flex-start">
+              <div style="width:36px;height:36px;background:rgba(108,99,255,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">📊</div>
+              <div><div style="font-weight:600;font-size:14px">Skill Readiness Score</div><div style="font-size:13px;color:var(--text-muted);margin-top:2px">How ready you are for your target career</div></div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start">
+              <div style="width:36px;height:36px;background:rgba(255,79,163,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">📌</div>
+              <div><div style="font-weight:600;font-size:14px">Missing Skills List</div><div style="font-size:13px;color:var(--text-muted);margin-top:2px">Exact skills you need to learn</div></div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start">
+              <div style="width:36px;height:36px;background:rgba(0,212,255,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">📈</div>
+              <div><div style="font-weight:600;font-size:14px">Skill Gap Chart</div><div style="font-size:13px;color:var(--text-muted);margin-top:2px">Visual breakdown of your skill gaps</div></div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start">
+              <div style="width:36px;height:36px;background:rgba(0,229,160,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">🏆</div>
+              <div><div style="font-weight:600;font-size:14px">Career Comparison</div><div style="font-size:13px;color:var(--text-muted);margin-top:2px">How you rank across career paths</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESULTS -->
+      <div id="analysisResult" style="display:none;margin-top:28px">
+        <div class="section-title" style="margin-bottom:20px">📈 Analysis Results</div>
+
+        <!-- Readiness + Missing -->
+        <div class="grid-2" style="margin-bottom:24px">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Skill Readiness</span>
+              <span class="card-badge badge-green" id="readinessPct">0%</span>
+            </div>
+            <div class="progress-bar" style="height:20px;border-radius:10px;margin-bottom:16px">
+              <div class="progress-fill green" id="readinessFill" style="width:0;border-radius:10px"></div>
+            </div>
+            <div style="font-size:13px;color:var(--text-muted);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em">Missing Skills</div>
+            <div id="missingList" class="tags-wrap"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Career Match Scores</span>
+              <span class="card-badge badge-purple">Top 3</span>
+            </div>
+            <div id="careerComp"></div>
+          </div>
+        </div>
+
+        <!-- Gap Chart -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Skill Gap Chart</span>
+            <span class="card-badge badge-pink">Visual</span>
+          </div>
+          <canvas id="gapChart" height="160"></canvas>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="js/sidebar.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/analysis.js"></script>
+<script>
+  document.getElementById('sidebar').innerHTML = renderSidebar('analysis.html');
+</script>
+<script src="js/theme.js"></script>
+</body>
+</html>

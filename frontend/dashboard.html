@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – FutureMap AI</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="app-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <header class="topbar">
+      <div class="page-title">Dashboard</div>
+      <div class="topbar-actions">
+        <button class="theme-toggle" id="themeToggle" title="Toggle Theme">☀️</button>
+        <a class="topbar-btn" href="predict.html" data-tooltip="New Prediction">⚡</a>
+        <a class="topbar-btn" href="profile.html" data-tooltip="Profile">👤</a>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <!-- WELCOME BANNER -->
+      <div class="card" style="margin-bottom:28px;background:linear-gradient(135deg,rgba(108,99,255,0.15),rgba(0,212,255,0.08));border-color:rgba(108,99,255,0.25);position:relative;overflow:hidden;">
+        <div style="position:absolute;right:32px;top:50%;transform:translateY(-50%);font-size:80px;opacity:0.15">🗺️</div>
+        <div style="position:relative;z-index:1">
+          <div style="font-size:12px;text-transform:uppercase;letter-spacing:0.1em;color:#6c63ff;font-weight:700;margin-bottom:8px">Welcome Back</div>
+          <h2 style="font-family:var(--font-display);font-size:26px;font-weight:800;letter-spacing:-0.02em;margin-bottom:8px">Hello, <span data-user-name style="background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">User</span> 👋</h2>
+          <p style="color:var(--text-secondary);font-size:14px;margin-bottom:20px">Discover your ideal tech career path with AI-powered analysis</p>
+          <a href="predict.html" class="btn btn-primary">⚡ Start Career Prediction</a>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-grid">
+        <div class="stat-card s1 animate-in">
+          <div class="stat-icon">🔮</div>
+          <div class="stat-value" id="totalPredictions" data-count="0">0</div>
+          <div class="stat-label">Total Predictions</div>
+          <div class="stat-change up">↑ This week</div>
+        </div>
+        <div class="stat-card s2 animate-in">
+          <div class="stat-icon">💼</div>
+          <div class="stat-value" data-count="16">0</div>
+          <div class="stat-label">Career Tracks</div>
+          <div class="stat-change up">↑ Active</div>
+        </div>
+        <div class="stat-card s3 animate-in">
+          <div class="stat-icon">📊</div>
+          <div class="stat-value" data-count="92">0</div>
+          <div class="stat-label">Model Accuracy %</div>
+          <div class="stat-change up">↑ RF Model</div>
+        </div>
+        <div class="stat-card s4 animate-in">
+          <div class="stat-icon">📚</div>
+          <div class="stat-value" data-count="40">0</div>
+          <div class="stat-label">Resources</div>
+          <div class="stat-change up">↑ Curated</div>
+        </div>
+      </div>
+
+      <!-- CHARTS ROW -->
+      <div class="grid-2" style="margin-bottom:24px">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Salary Estimation by Role</span>
+            <span class="card-badge badge-cyan">LPA ₹</span>
+          </div>
+          <canvas id="salaryChart" height="220"></canvas>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Skill Market Demand</span>
+            <span class="card-badge badge-purple">Radar</span>
+          </div>
+          <canvas id="skillsRadar" height="220"></canvas>
+        </div>
+      </div>
+
+      <!-- CAREERS + HISTORY -->
+      <div class="grid-12">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Recent Predictions</span>
+            <a href="history.html" class="btn btn-ghost btn-sm">View All</a>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Skills</th>
+                <th>Career</th>
+                <th>Confidence</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="recentPredictions">
+              <tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-muted)">
+                <div class="spinner" style="margin:0 auto 8px"></div> Loading...
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Top Career Tracks</span>
+            <span class="card-badge badge-green">Live</span>
+          </div>
+          <div id="topCareers">
+            <div style="color:var(--text-muted);text-align:center;padding:20px">Loading...</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="js/sidebar.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/dashboard.js"></script>
+<script>
+  document.getElementById('sidebar').innerHTML = renderSidebar('dashboard.html');
+</script>
+<script src="js/theme.js"></script>
+</body>
+</html>

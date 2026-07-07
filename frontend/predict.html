@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Career Prediction – FutureMap AI</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .quick-skills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .quick-skill { padding: 5px 12px; background: rgba(108,99,255,0.08); border: 1px dashed rgba(108,99,255,0.3); border-radius: 20px; font-size: 12px; color: var(--accent-primary); cursor: pointer; transition: all 0.2s; font-weight: 500; }
+    .quick-skill:hover { background: rgba(108,99,255,0.18); border-style: solid; }
+    .result-header { background: linear-gradient(135deg,rgba(108,99,255,0.12),rgba(0,212,255,0.08)); border: 1px solid rgba(108,99,255,0.2); border-radius: var(--radius); padding: 28px; margin-bottom: 24px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+    .result-main { flex: 1; min-width: 200px; }
+    .result-career { font-family: var(--font-display); font-size: 32px; font-weight: 800; letter-spacing: -0.02em; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .result-meta { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
+    .result-meta-item { font-size: 14px; color: var(--text-secondary); }
+    .result-meta-item strong { color: var(--text-primary); }
+    .conf-ring { width: 100px; height: 100px; border-radius: 50%; background: conic-gradient(#6c63ff 82%, rgba(108,99,255,0.1) 0); display: flex; align-items: center; justify-content: center; position: relative; }
+    .conf-ring::before { content: ''; position: absolute; inset: 12px; background: var(--bg-card); border-radius: 50%; }
+    .conf-ring span { position: relative; z-index: 1; font-family: var(--font-display); font-size: 18px; font-weight: 800; color: var(--accent-primary); }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main-content">
+    <header class="topbar">
+      <div class="page-title">⚡ Career Prediction</div>
+      <div class="topbar-actions">
+        <button class="theme-toggle" id="themeToggle" title="Toggle Theme">☀️</button>
+        <a class="topbar-btn" href="history.html">🕓</a>
+      </div>
+    </header>
+    <main class="page-content">
+      <div class="grid-21">
+        <div class="card" style="align-self:start">
+          <div class="card-header">
+            <span class="card-title">🎯 Analyze My Skills</span>
+            <span class="card-badge badge-purple">AI Powered</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Your Name</label>
+            <input class="form-input" type="text" id="nameInput" placeholder="Enter your name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Your Skills (comma separated)</label>
+            <textarea class="form-textarea" id="skillsInput" placeholder="python, machine learning, tensorflow..." style="min-height:120px"></textarea>
+            <div style="margin-top:10px">
+              <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em;font-weight:600">Quick fill examples:</div>
+              <div class="quick-skills">
+                <span class="quick-skill" onclick="quickFill('python, machine learning, deep learning, tensorflow, keras')">🤖 AI Engineer</span>
+                <span class="quick-skill" onclick="quickFill('javascript, react, nodejs, html, css, mongodb')">💻 Full Stack</span>
+                <span class="quick-skill" onclick="quickFill('docker, kubernetes, aws, linux, ci/cd, terraform')">🔧 DevOps</span>
+                <span class="quick-skill" onclick="quickFill('python, pandas, sql, tableau, statistics, excel')">📊 Data Analyst</span>
+                <span class="quick-skill" onclick="quickFill('react, typescript, javascript, css, figma')">🎨 Frontend</span>
+                <span class="quick-skill" onclick="quickFill('blockchain, solidity, ethereum, web3, javascript')">⛓️ Blockchain</span>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-full btn-lg" type="button" onclick="submitPrediction()" id="predictBtn">⚡ Analyze My Career</button>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div class="card">
+            <div class="card-title" style="margin-bottom:16px">How It Works</div>
+            <div class="roadmap-list">
+              <div class="roadmap-item"><div class="roadmap-dot">1</div><div class="roadmap-text">Enter your current skills (comma separated)</div></div>
+              <div class="roadmap-item"><div class="roadmap-dot">2</div><div class="roadmap-text">AI model analyzes skill patterns using Random Forest ML</div></div>
+              <div class="roadmap-item"><div class="roadmap-dot">3</div><div class="roadmap-text">Get top 3 career matches with confidence scores</div></div>
+              <div class="roadmap-item"><div class="roadmap-dot">4</div><div class="roadmap-text">Receive personalized roadmap + salary + resources</div></div>
+            </div>
+          </div>
+          <div class="card" style="background:linear-gradient(135deg,rgba(0,229,160,0.06),rgba(0,212,255,0.04));border-color:rgba(0,229,160,0.15)">
+            <div style="font-size:24px;margin-bottom:10px">💡</div>
+            <div style="font-weight:600;margin-bottom:6px">Pro Tip</div>
+            <div style="font-size:13px;color:var(--text-secondary);line-height:1.6">Add as many specific skills as possible for better accuracy.</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="loadingState" style="display:none;text-align:center;padding:60px 0">
+        <div class="spinner" style="width:48px;height:48px;margin:0 auto 20px;border-width:4px"></div>
+        <div style="font-family:var(--font-display);font-size:20px;font-weight:700;margin-bottom:8px">Analyzing your skills...</div>
+        <div style="color:var(--text-muted);font-size:14px">AI model is processing your career profile</div>
+      </div>
+
+      <div id="resultSection" style="display:none;margin-top:28px">
+        <div class="section-header">
+          <span class="section-title">🎉 Your Career Analysis</span>
+          <a href="analysis.html" class="btn btn-ghost btn-sm">Deep Analysis →</a>
+        </div>
+        <div class="result-header">
+          <div style="font-size:60px" id="careerEmoji">🤖</div>
+          <div class="result-main">
+            <div style="font-size:12px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:6px;font-weight:600">Recommended Career</div>
+            <div class="result-career" id="recommendedCareer"></div>
+            <div class="result-meta">
+              <span class="result-meta-item">💰 Salary: <strong id="salaryRange"></strong></span>
+              <span class="result-meta-item">🎯 Confidence: <strong id="confidenceScore"></strong></span>
+            </div>
+          </div>
+          <div><div class="conf-ring"><span id="confRingPct"></span></div></div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:24px">
+          <div class="card">
+            <div class="card-header"><span class="card-title">🏆 Top Career Matches</span><span class="card-badge badge-purple">ML Result</span></div>
+            <div id="topMatches"></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">Match Distribution</span><span class="card-badge badge-cyan">Chart</span></div>
+            <canvas id="matchChart" height="200"></canvas>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:24px">
+          <div class="card">
+            <div class="card-header"><span class="card-title">📈 Skill Readiness</span><span class="card-badge badge-green" id="readinessScore">0%</span></div>
+            <div class="progress-wrap" style="margin-bottom:20px">
+              <div class="progress-bar" style="height:12px"><div class="progress-fill purple" id="readinessFill" style="width:0"></div></div>
+            </div>
+            <div style="font-size:13px;color:var(--text-muted);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em">Missing Skills</div>
+            <div id="missingSkills" class="tags-wrap"></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">🗺️ Learning Roadmap</span><span class="card-badge badge-orange">Steps</span></div>
+            <ul class="roadmap-list" id="roadmapList"></ul>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="js/sidebar.js"></script>
+<script src="js/auth.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('sidebar').innerHTML = renderSidebar('predict.html');
+  try {
+    const user = JSON.parse(localStorage.getItem('fm_user') || '{}');
+    if (user.name) document.getElementById('nameInput').value = user.name;
+  } catch(e) {}
+});
+
+function quickFill(skills) {
+  document.getElementById('skillsInput').value = skills;
+}
+
+async function submitPrediction() {
+  const name = document.getElementById('nameInput').value || 'User';
+  const skills = document.getElementById('skillsInput').value.trim();
+  if (!skills) { alert('Skills likho!'); return; }
+
+  const btn = document.getElementById('predictBtn');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Analyzing...';
+  document.getElementById('loadingState').style.display = 'block';
+  document.getElementById('resultSection').style.display = 'none';
+
+  try {
+    const res = await fetch('/api/predict', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({name: name, skills: skills})
+    });
+    const data = await res.json();
+    document.getElementById('loadingState').style.display = 'none';
+    renderResult(data);
+    document.getElementById('resultSection').style.display = 'block';
+  } catch(err) {
+    document.getElementById('loadingState').style.display = 'none';
+    alert('Backend error! Terminal mein python app.py chal raha hai?');
+  }
+  btn.disabled = false;
+  btn.innerHTML = '⚡ Analyze My Career';
+}
+
+function renderResult(data) {
+  const icons = {'AI Engineer':'🤖','Data Scientist':'📊','Full Stack Developer':'💻','Backend Developer':'⚙️','Frontend Developer':'🎨','DevOps Engineer':'🔧','Data Analyst':'📈','NLP Engineer':'🧠','Computer Vision Engineer':'👁️','Android Developer':'📱','iOS Developer':'🍎','Cybersecurity Engineer':'🔐','Blockchain Developer':'⛓️','Cloud Architect':'☁️','Big Data Engineer':'🌊','UI/UX Designer':'✏️'};
+
+  document.getElementById('careerEmoji').textContent = icons[data.recommended_career] || '💼';
+  document.getElementById('recommendedCareer').textContent = data.recommended_career;
+  document.getElementById('confidenceScore').textContent = data.confidence;
+  document.getElementById('salaryRange').textContent = data.salary;
+  document.getElementById('confRingPct').textContent = data.confidence;
+
+  const colors = ['rgba(108,99,255,0.12)','rgba(0,212,255,0.1)','rgba(0,229,160,0.1)'];
+  const textColors = ['#6c63ff','#00d4ff','#00e5a0'];
+  document.getElementById('topMatches').innerHTML = data.top_matches.map((m,i) => `
+    <div class="career-match">
+      <div class="career-match-info">
+        <div class="career-match-icon" style="background:${colors[i]}">${icons[m.career]||'💼'}</div>
+        <div><div class="career-match-name">${m.career}</div><div class="career-match-sub">Match Score</div></div>
+      </div>
+      <div class="match-pct" style="color:${textColors[i]}">${m.confidence}%</div>
+    </div>`).join('');
+
+  document.getElementById('missingSkills').innerHTML = data.missing_skills.length
+    ? data.missing_skills.map(s => `<span class="tag tag-missing">📌 ${s}</span>`).join('')
+    : '<span class="tag tag-match">✅ You have all key skills!</span>';
+
+  const r = data.readiness_score || 0;
+  document.getElementById('readinessScore').textContent = r + '%';
+  setTimeout(() => { document.getElementById('readinessFill').style.width = r + '%'; }, 100);
+
+  document.getElementById('roadmapList').innerHTML = data.roadmap.map((s,i) => `
+    <li class="roadmap-item"><div class="roadmap-dot">${i+1}</div><div class="roadmap-text">${s}</div></li>`).join('');
+
+  const ctx = document.getElementById('matchChart');
+  if (window._chart) window._chart.destroy();
+  window._chart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: data.top_matches.map(m => m.career),
+      datasets: [{ data: data.top_matches.map(m => m.confidence), backgroundColor: ['rgba(108,99,255,0.8)','rgba(0,212,255,0.7)','rgba(0,229,160,0.7)'], borderColor: ['#6c63ff','#00d4ff','#00e5a0'], borderWidth: 2 }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { color: '#8892b0' } } }, cutout: '68%' }
+  });
+}
+</script>
+<script src="js/theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Career Compare – FutureMap AI</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main-content">
+    <header class="topbar">
+      <div class="page-title">⚖️ Career Comparison</div>
+      <div class="topbar-actions">
+        <button class="theme-toggle" id="themeToggle" title="Toggle Theme">☀️</button>
+      </div>
+    </header>
+    <main class="page-content">
+
+      <!-- SELECT CAREERS -->
+      <div class="card" style="margin-bottom:24px">
+        <div class="card-header">
+          <span class="card-title">🎯 Select Two Careers to Compare</span>
+          <span class="card-badge badge-purple">Side by Side</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:8px">
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Career 1</label>
+            <select class="form-select" id="career1" onchange="updateCompare()">
+              <option value="">-- Select Career --</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Career 2</label>
+            <select class="form-select" id="career2" onchange="updateCompare()">
+              <option value="">-- Select Career --</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPARE CARDS -->
+      <div id="compareSection" style="display:none">
+        <div class="compare-grid">
+          <div class="compare-card selected" id="card1">
+            <div class="compare-header">
+              <div class="compare-emoji" id="emoji1">🤖</div>
+              <div class="compare-title" id="title1">AI Engineer</div>
+              <div class="compare-salary" id="salary1">₹8L – ₹25L PA</div>
+            </div>
+            <div class="compare-row"><span class="compare-row-label">Min Salary</span><span class="compare-row-value" id="min1">₹8 LPA</span></div>
+            <div class="compare-row"><span class="compare-row-label">Max Salary</span><span class="compare-row-value" id="max1">₹25 LPA</span></div>
+            <div class="compare-row"><span class="compare-row-label">Skills Required</span><span class="compare-row-value" id="skillcount1">7</span></div>
+            <div class="compare-row"><span class="compare-row-label">Difficulty</span><span class="compare-row-value" id="diff1">High</span></div>
+            <div class="compare-row"><span class="compare-row-label">Market Demand</span><span class="compare-row-value" id="demand1">🔥 Very High</span></div>
+            <div style="margin-top:16px">
+              <div style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px">Key Skills</div>
+              <div id="skills1" class="tags-wrap"></div>
+            </div>
+            <div style="margin-top:16px">
+              <div style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px">Roadmap</div>
+              <div id="roadmap1"></div>
+            </div>
+          </div>
+
+          <div class="compare-card" id="card2">
+            <div class="compare-header">
+              <div class="compare-emoji" id="emoji2">📊</div>
+              <div class="compare-title" id="title2">Data Scientist</div>
+              <div class="compare-salary" id="salary2">₹6L – ₹22L PA</div>
+            </div>
+            <div class="compare-row"><span class="compare-row-label">Min Salary</span><span class="compare-row-value" id="min2">₹6 LPA</span></div>
+            <div class="compare-row"><span class="compare-row-label">Max Salary</span><span class="compare-row-value" id="max2">₹22 LPA</span></div>
+            <div class="compare-row"><span class="compare-row-label">Skills Required</span><span class="compare-row-value" id="skillcount2">7</span></div>
+            <div class="compare-row"><span class="compare-row-label">Difficulty</span><span class="compare-row-value" id="diff2">High</span></div>
+            <div class="compare-row"><span class="compare-row-label">Market Demand</span><span class="compare-row-value" id="demand2">🔥 High</span></div>
+            <div style="margin-top:16px">
+              <div style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px">Key Skills</div>
+              <div id="skills2" class="tags-wrap"></div>
+            </div>
+            <div style="margin-top:16px">
+              <div style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px">Roadmap</div>
+              <div id="roadmap2"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SALARY CHART -->
+        <div class="card" style="margin-bottom:24px">
+          <div class="card-header">
+            <span class="card-title">💰 Salary Comparison</span>
+            <span class="card-badge badge-green">Chart</span>
+          </div>
+          <canvas id="salaryCompareChart" height="120"></canvas>
+        </div>
+
+        <!-- WINNER -->
+        <div class="card" style="background:linear-gradient(135deg,rgba(0,229,160,0.08),rgba(0,212,255,0.05));border-color:rgba(0,229,160,0.2)">
+          <div class="card-header">
+            <span class="card-title">🏆 Recommendation</span>
+          </div>
+          <div id="winnerSection" style="font-size:15px;color:var(--text-secondary);line-height:1.8"></div>
+        </div>
+      </div>
+
+      <!-- EMPTY STATE -->
+      <div id="emptyState" style="text-align:center;padding:60px 24px">
+        <div style="font-size:64px;margin-bottom:16px">⚖️</div>
+        <div style="font-family:var(--font-display);font-size:22px;font-weight:800;margin-bottom:8px">Compare Any Two Careers</div>
+        <div style="color:var(--text-muted);font-size:14px">Select two careers from the dropdowns above to see a detailed side-by-side comparison</div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="js/sidebar.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/theme.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('sidebar').innerHTML = renderSidebar('compare.html');
+  loadCareers();
+});
+
+const CAREER_META = {
+  'AI Engineer': { emoji: '🤖', min: 8, max: 25, difficulty: 'Very High', demand: '🔥 Very High' },
+  'Data Scientist': { emoji: '📊', min: 6, max: 22, difficulty: 'High', demand: '🔥 Very High' },
+  'Full Stack Developer': { emoji: '💻', min: 5, max: 20, difficulty: 'High', demand: '🔥 High' },
+  'Backend Developer': { emoji: '⚙️', min: 5, max: 18, difficulty: 'Medium', demand: '🔥 High' },
+  'Frontend Developer': { emoji: '🎨', min: 4, max: 16, difficulty: 'Medium', demand: '📈 High' },
+  'DevOps Engineer': { emoji: '🔧', min: 7, max: 22, difficulty: 'High', demand: '🔥 Very High' },
+  'Data Analyst': { emoji: '📈', min: 4, max: 14, difficulty: 'Medium', demand: '📈 High' },
+  'NLP Engineer': { emoji: '🧠', min: 8, max: 24, difficulty: 'Very High', demand: '🔥 Very High' },
+  'Computer Vision Engineer': { emoji: '👁️', min: 8, max: 24, difficulty: 'Very High', demand: '🔥 High' },
+  'Android Developer': { emoji: '📱', min: 4, max: 18, difficulty: 'Medium', demand: '📈 Medium' },
+  'iOS Developer': { emoji: '🍎', min: 5, max: 20, difficulty: 'Medium', demand: '📈 Medium' },
+  'Database Administrator': { emoji: '🗄️', min: 5, max: 16, difficulty: 'Medium', demand: '📈 Medium' },
+  'Cybersecurity Engineer': { emoji: '🔐', min: 6, max: 20, difficulty: 'High', demand: '🔥 Very High' },
+  'Blockchain Developer': { emoji: '⛓️', min: 7, max: 28, difficulty: 'Very High', demand: '📈 High' },
+  'AI Researcher': { emoji: '🔬', min: 10, max: 35, difficulty: 'Extreme', demand: '🔥 High' },
+  'Cloud Architect': { emoji: '☁️', min: 10, max: 30, difficulty: 'High', demand: '🔥 Very High' },
+  'Big Data Engineer': { emoji: '🌊', min: 8, max: 25, difficulty: 'High', demand: '🔥 High' },
+  'UI/UX Designer': { emoji: '✏️', min: 4, max: 16, difficulty: 'Medium', demand: '📈 High' },
+  'Product Analyst': { emoji: '📉', min: 6, max: 18, difficulty: 'Medium', demand: '📈 Medium' },
+  'Java Developer': { emoji: '☕', min: 5, max: 20, difficulty: 'Medium', demand: '📈 High' },
+  'Game Developer': { emoji: '🎮', min: 4, max: 18, difficulty: 'High', demand: '📈 Medium' },
+  '.NET Developer': { emoji: '🖥️', min: 5, max: 18, difficulty: 'Medium', demand: '📈 Medium' },
+  'Embedded Engineer': { emoji: '🔌', min: 5, max: 18, difficulty: 'High', demand: '📈 Medium' },
+  'Robotics Engineer': { emoji: '🤖', min: 6, max: 22, difficulty: 'Very High', demand: '📈 High' },
+  'AR/VR Developer': { emoji: '🥽', min: 6, max: 22, difficulty: 'High', demand: '🔥 High' },
+};
+
+let careerData = {};
+
+async function loadCareers() {
+  try {
+    const res = await fetch('/api/careers');
+    const careers = await res.json();
+    careers.forEach(c => { careerData[c.name] = c; });
+    populateDropdowns(careers.map(c => c.name));
+  } catch(e) {
+    populateDropdowns(Object.keys(CAREER_META));
+  }
+}
+
+function populateDropdowns(careers) {
+  const sel1 = document.getElementById('career1');
+  const sel2 = document.getElementById('career2');
+  careers.sort().forEach(c => {
+    sel1.innerHTML += `<option value="${c}">${CAREER_META[c]?.emoji || '💼'} ${c}</option>`;
+    sel2.innerHTML += `<option value="${c}">${CAREER_META[c]?.emoji || '💼'} ${c}</option>`;
+  });
+  sel1.value = 'AI Engineer';
+  sel2.value = 'Data Scientist';
+  updateCompare();
+}
+
+function updateCompare() {
+  const c1 = document.getElementById('career1').value;
+  const c2 = document.getElementById('career2').value;
+  if (!c1 || !c2) {
+    document.getElementById('emptyState').style.display = 'block';
+    document.getElementById('compareSection').style.display = 'none';
+    return;
+  }
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('compareSection').style.display = 'block';
+  renderCareer(1, c1);
+  renderCareer(2, c2);
+  renderSalaryChart(c1, c2);
+  renderWinner(c1, c2);
+}
+
+function renderCareer(num, career) {
+  const meta = CAREER_META[career] || { emoji: '💼', min: 5, max: 15, difficulty: 'Medium', demand: '📈 Medium' };
+  document.getElementById(`emoji${num}`).textContent = meta.emoji;
+  document.getElementById(`title${num}`).textContent = career;
+  document.getElementById(`salary${num}`).textContent = `₹${meta.min}L – ₹${meta.max}L PA`;
+  document.getElementById(`min${num}`).textContent = `₹${meta.min} LPA`;
+  document.getElementById(`max${num}`).textContent = `₹${meta.max} LPA`;
+  document.getElementById(`diff${num}`).textContent = meta.difficulty;
+  document.getElementById(`demand${num}`).textContent = meta.demand;
+
+  const data = careerData[career];
+  const skills = data?.required_skills || [];
+  document.getElementById(`skillcount${num}`).textContent = skills.length;
+  document.getElementById(`skills${num}`).innerHTML = skills.slice(0,6).map(s => `<span class="tag tag-skill">${s}</span>`).join('');
+
+  // Roadmap from career data
+  fetch('/api/predict', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({name:'compare', skills: skills.join(', ')}) })
+    .then(r => r.json())
+    .then(d => {
+      document.getElementById(`roadmap${num}`).innerHTML = d.roadmap.map((s,i) => `
+        <div style="display:flex;gap:8px;align-items:center;padding:4px 0;font-size:12px;color:var(--text-secondary)">
+          <span style="background:rgba(108,99,255,0.15);color:var(--accent-primary);border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">${i+1}</span>
+          ${s}
+        </div>`).join('');
+    }).catch(() => {});
+}
+
+function renderSalaryChart(c1, c2) {
+  const m1 = CAREER_META[c1] || {min:5,max:15};
+  const m2 = CAREER_META[c2] || {min:5,max:15};
+  const ctx = document.getElementById('salaryCompareChart');
+  if (window._compareChart) window._compareChart.destroy();
+  window._compareChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Min Salary (LPA)', 'Max Salary (LPA)'],
+      datasets: [
+        { label: c1, data: [m1.min, m1.max], backgroundColor: 'rgba(108,99,255,0.7)', borderColor: '#6c63ff', borderWidth: 2, borderRadius: 8 },
+        { label: c2, data: [m2.min, m2.max], backgroundColor: 'rgba(0,212,255,0.6)', borderColor: '#00d4ff', borderWidth: 2, borderRadius: 8 }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { labels: { color: '#8892b0' } } },
+      scales: {
+        x: { ticks: { color: '#8892b0' }, grid: { color: 'rgba(255,255,255,0.04)' } },
+        y: { ticks: { color: '#8892b0', callback: v => `₹${v}L` }, grid: { color: 'rgba(255,255,255,0.04)' } }
+      }
+    }
+  });
+}
+
+function renderWinner(c1, c2) {
+  const m1 = CAREER_META[c1] || {min:5,max:15};
+  const m2 = CAREER_META[c2] || {min:5,max:15};
+  const winner = m1.max >= m2.max ? c1 : c2;
+  const loser = winner === c1 ? c2 : c1;
+  document.getElementById('winnerSection').innerHTML = `
+    <p>Based on salary potential and market demand, <strong style="color:var(--accent-green)">${winner}</strong> has a slight edge over <strong>${loser}</strong> with a higher maximum salary of ₹${Math.max(m1.max, m2.max)} LPA.</p>
+    <p style="margin-top:8px">However, both are excellent career choices! The best path depends on your interests, existing skills, and long-term goals. Use the <a href="predict.html" style="color:var(--accent-primary)">Career Predictor</a> to find which one you're better suited for.</p>
+  `;
+}
+</script>
+</body>
+</html>

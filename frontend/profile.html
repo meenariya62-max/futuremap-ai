@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile – FutureMap AI</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .profile-hero {
+      background: linear-gradient(135deg, rgba(108,99,255,0.12), rgba(0,212,255,0.06));
+      border: 1px solid rgba(108,99,255,0.2);
+      border-radius: var(--radius);
+      padding: 36px;
+      margin-bottom: 24px;
+      display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
+    }
+    .profile-avatar-large {
+      width: 88px; height: 88px;
+      border-radius: 50%;
+      background: var(--gradient-1);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-size: 36px; font-weight: 800; color: white;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 4px rgba(108,99,255,0.2);
+    }
+    .profile-info { flex: 1; }
+    .profile-name {
+      font-family: var(--font-display);
+      font-size: 28px; font-weight: 800; letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .profile-email { color: var(--text-muted); font-size: 14px; margin-bottom: 12px; }
+    .profile-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+    .info-row {
+      display: flex; align-items: center; gap: 12px; padding: 14px 0;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 14px;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-label { color: var(--text-muted); width: 120px; flex-shrink: 0; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .info-value { color: var(--text-primary); flex: 1; }
+  </style>
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main-content">
+    <header class="topbar">
+      <div class="page-title">👤 My Profile</div>
+      <div class="topbar-actions">
+        <button class="theme-toggle" id="themeToggle" title="Toggle Theme">☀️</button>
+        <button class="topbar-btn" onclick="logout()" data-tooltip="Logout">🚪</button>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <!-- Profile Hero -->
+      <div class="profile-hero">
+        <div class="profile-avatar-large" id="profileAvatar">U</div>
+        <div class="profile-info">
+          <div class="profile-name" id="profileName">Loading...</div>
+          <div class="profile-email" id="profileEmail">...</div>
+          <div class="profile-badges">
+            <span class="tag tag-skill">🎓 Career Seeker</span>
+            <span class="tag tag-match">✅ Active User</span>
+            <span class="card-badge badge-purple" id="memberBadge">Member</span>
+          </div>
+        </div>
+        <div style="text-align:center">
+          <a href="predict.html" class="btn btn-primary">⚡ New Prediction</a>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Account Info -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Account Information</span>
+            <span class="card-badge badge-cyan">Profile</span>
+          </div>
+          <div>
+            <div class="info-row">
+              <span class="info-label">Name</span>
+              <span class="info-value" id="infoName">—</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Email</span>
+              <span class="info-value" id="infoEmail">—</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Member Since</span>
+              <span class="info-value" id="infoJoined">—</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Predictions</span>
+              <span class="info-value" id="infoPredictions">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Your Skills</span>
+            <a href="predict.html" class="btn btn-ghost btn-sm">Update →</a>
+          </div>
+          <div id="profileSkills" class="tags-wrap">
+            <span style="color:var(--text-muted);font-size:14px">No skills added yet. <a href="predict.html" style="color:var(--accent-primary)">Add skills</a> during prediction.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activity Chart -->
+      <div class="card" style="margin-top:24px">
+        <div class="card-header">
+          <span class="card-title">Career Match History</span>
+          <span class="card-badge badge-orange">Activity</span>
+        </div>
+        <canvas id="activityChart" height="120"></canvas>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="grid-3" style="margin-top:24px">
+        <a href="predict.html" class="card" style="text-decoration:none;text-align:center;cursor:pointer">
+          <div style="font-size:32px;margin-bottom:10px">⚡</div>
+          <div style="font-weight:700;margin-bottom:4px">New Prediction</div>
+          <div style="font-size:13px;color:var(--text-muted)">Analyze your skills</div>
+        </a>
+        <a href="analysis.html" class="card" style="text-decoration:none;text-align:center;cursor:pointer">
+          <div style="font-size:32px;margin-bottom:10px">📊</div>
+          <div style="font-weight:700;margin-bottom:4px">Skill Analysis</div>
+          <div style="font-size:13px;color:var(--text-muted)">View gap analysis</div>
+        </a>
+        <a href="resources.html" class="card" style="text-decoration:none;text-align:center;cursor:pointer">
+          <div style="font-size:32px;margin-bottom:10px">📚</div>
+          <div style="font-weight:700;margin-bottom:4px">Resources</div>
+          <div style="font-size:13px;color:var(--text-muted)">Learn missing skills</div>
+        </a>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="js/sidebar.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  document.getElementById('sidebar').innerHTML = renderSidebar('profile.html');
+
+  const API = '/api';
+
+  async function loadProfile() {
+    const user = JSON.parse(localStorage.getItem('fm_user') || '{}');
+    if (!user.name) return;
+
+    // Set basic info from localStorage
+    document.getElementById('profileAvatar').textContent = user.name[0].toUpperCase();
+    document.getElementById('profileName').textContent = user.name;
+    document.getElementById('profileEmail').textContent = user.email || 'No email';
+    document.getElementById('infoName').textContent = user.name;
+    document.getElementById('infoEmail').textContent = user.email || '—';
+
+    // Load history for stats
+    try {
+      const res = await fetch(`${API}/history`);
+      const history = await res.json();
+      document.getElementById('infoPredictions').textContent = history.length;
+
+      // Load profile from backend
+      if (user.email) {
+        try {
+          const pRes = await fetch(`${API}/profile?email=${user.email}`);
+          const pData = await pRes.json();
+          document.getElementById('infoJoined').textContent = pData.joined || '—';
+          document.getElementById('memberBadge').textContent = `Joined ${pData.joined || '—'}`;
+
+          if (pData.skills) {
+            const skills = pData.skills.split(',').filter(s => s.trim());
+            if (skills.length > 0) {
+              document.getElementById('profileSkills').innerHTML = skills.map(s =>
+                `<span class="tag tag-skill">${s.trim()}</span>`
+              ).join('');
+            }
+          }
+        } catch {}
+      }
+
+      // Activity chart
+      renderActivityChart(history);
+    } catch {}
+  }
+
+  function renderActivityChart(history) {
+    const ctx = document.getElementById('activityChart');
+    if (!ctx || !history.length) return;
+
+    // Group by career
+    const freq = {};
+    history.slice(0, 10).forEach(h => {
+      freq[h.recommended_career] = (freq[h.recommended_career] || 0) + 1;
+    });
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: Object.keys(freq),
+        datasets: [{
+          label: 'Times Predicted',
+          data: Object.values(freq),
+          backgroundColor: 'rgba(108,99,255,0.6)',
+          borderColor: '#6c63ff',
+          borderWidth: 1,
+          borderRadius: 8,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: '#8892b0' }, grid: { color: 'rgba(255,255,255,0.04)' } },
+          y: { ticks: { color: '#8892b0', stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.04)' } }
+        }
+      }
+    });
+  }
+
+  loadProfile();
+</script>
+<script src="js/theme.js"></script>
+</body>
+</html>

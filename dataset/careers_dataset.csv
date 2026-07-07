@@ -1,0 +1,154 @@
+skills,career
+python,machine learning,deep learning,tensorflow,keras,neural networks,data analysis,AI Engineer
+python,machine learning,scikit-learn,statistics,data visualization,pandas,numpy,Data Scientist
+javascript,react,nodejs,html,css,rest api,mongodb,express,Full Stack Developer
+python,django,flask,rest api,postgresql,docker,redis,mysql,Backend Developer
+react,javascript,html,css,redux,typescript,webpack,tailwind,Frontend Developer
+python,data analysis,sql,tableau,power bi,statistics,excel,matplotlib,Data Analyst
+machine learning,nlp,transformers,bert,python,text classification,spacy,nltk,NLP Engineer
+docker,kubernetes,aws,linux,ci/cd,terraform,ansible,jenkins,DevOps Engineer
+python,tensorflow,computer vision,opencv,deep learning,image processing,yolo,pytorch,Computer Vision Engineer
+android,java,kotlin,firebase,rest api,mobile ui,jetpack compose,xml,Android Developer
+swift,ios,xcode,objective-c,firebase,mobile ui,swiftui,cocoapods,iOS Developer
+sql,postgresql,mongodb,data modeling,etl,data warehouse,mysql,oracle,Database Administrator
+cybersecurity,networking,linux,penetration testing,ethical hacking,firewall,kali linux,nmap,Cybersecurity Engineer
+blockchain,solidity,ethereum,web3,smart contracts,cryptography,hardhat,truffle,Blockchain Developer
+python,machine learning,reinforcement learning,tensorflow,deep learning,openai gym,pytorch,AI Researcher
+cloud computing,aws,azure,gcp,serverless,lambda,terraform,docker,Cloud Architect
+python,spark,hadoop,kafka,data pipeline,big data,hive,scala,Big Data Engineer
+figma,ui design,ux research,prototyping,adobe xd,wireframing,user testing,sketch,UI/UX Designer
+python,statistics,machine learning,a/b testing,sql,data visualization,r,tableau,Product Analyst
+java,spring boot,microservices,docker,kubernetes,hibernate,maven,SQL,Java Developer
+python,tensorflow,keras,deep learning,neural networks,AI Engineer
+python,scikit-learn,pandas,statistics,machine learning,Data Scientist
+javascript,react,nodejs,html,css,Full Stack Developer
+python,django,postgresql,rest api,redis,Backend Developer
+react,typescript,javascript,css,redux,Frontend Developer
+python,pandas,sql,tableau,excel,Data Analyst
+nlp,bert,transformers,python,spacy,NLP Engineer
+docker,kubernetes,aws,linux,terraform,DevOps Engineer
+python,computer vision,opencv,pytorch,yolo,Computer Vision Engineer
+android,kotlin,firebase,jetpack compose,java,Android Developer
+swift,ios,swiftui,xcode,firebase,iOS Developer
+sql,postgresql,mongodb,etl,data warehouse,Database Administrator
+blockchain,solidity,ethereum,web3,hardhat,Blockchain Developer
+aws,azure,gcp,terraform,serverless,Cloud Architect
+spark,hadoop,kafka,python,big data,Big Data Engineer
+figma,ui design,ux research,wireframing,prototyping,UI/UX Designer
+python,machine learning,tensorflow,deep learning,keras,neural networks,computer vision,AI Engineer
+python,machine learning,scikit-learn,pandas,numpy,statistics,Data Scientist
+react,vue,angular,javascript,html,css,typescript,Frontend Developer
+nodejs,express,python,flask,rest api,postgresql,Backend Developer
+aws,gcp,azure,docker,kubernetes,serverless,lambda,Cloud Architect
+pandas,numpy,matplotlib,seaborn,scikit-learn,python,statistics,Data Scientist
+sql,mysql,postgresql,mongodb,redis,etl,oracle,Database Administrator
+tensorflow,pytorch,deep learning,python,neural networks,computer vision,AI Researcher
+spark,hadoop,kafka,hive,python,scala,flink,Big Data Engineer
+solidity,ethereum,blockchain,web3,smart contracts,defi,Blockchain Developer
+android,kotlin,java,firebase,mobile,rest api,retrofit,Android Developer
+swift,ios,xcode,swiftui,objective-c,mobile,iOS Developer
+figma,sketch,adobe xd,ui,ux,wireframing,user research,UI/UX Designer
+python,r,statistics,machine learning,data analysis,visualization,Product Analyst
+docker,jenkins,ansible,terraform,linux,bash,ci/cd,DevOps Engineer
+html,css,javascript,react,bootstrap,tailwind,responsive design,Frontend Developer
+python,nlp,bert,transformers,classification,spacy,huggingface,NLP Engineer
+python,machine learning,deep learning,tensorflow,pytorch,cuda,AI Engineer
+data analysis,sql,python,excel,power bi,kpi,metrics,Data Analyst
+react,nextjs,javascript,css,graphql,typescript,Frontend Developer
+flask,fastapi,python,postgresql,mongodb,docker,Backend Developer
+aws,ec2,s3,lambda,rds,cloudformation,terraform,Cloud Architect
+hadoop,spark,hive,mapreduce,hdfs,Big Data Engineer
+penetration testing,ethical hacking,kali linux,metasploit,nmap,wireshark,Cybersecurity Engineer
+python,tensorflow,cnn,object detection,opencv,Computer Vision Engineer
+java,android,kotlin,gradle,firebase,room,Android Developer
+swift,uikit,swiftui,combine,core data,ios,iOS Developer
+postgresql,mysql,oracle,indexing,query optimization,Database Administrator
+web3,metamask,solidity,defi,nft,ethereum,Blockchain Developer
+kubernetes,helm,prometheus,grafana,docker,DevOps Engineer
+python,pandas,matplotlib,plotly,data visualization,Data Analyst
+user research,wireframing,figma,prototyping,usability testing,UI/UX Designer
+machine learning,recommendation,python,collaborative filtering,deep learning,AI Engineer
+r,python,statistics,hypothesis testing,regression,Data Scientist
+html,css,javascript,jquery,bootstrap,wordpress,Frontend Developer
+ruby,rails,postgresql,rest api,redis,Backend Developer
+azure,devops,pipelines,cloud,functions,Cloud Architect
+kafka,flink,streaming,real time,scala,Big Data Engineer
+network security,firewall,ids,ips,vpn,ssl,Cybersecurity Engineer
+solana,rust,blockchain,web3,smart contracts,Blockchain Developer
+flutter,dart,mobile,firebase,android,bloc,Android Developer
+react native,javascript,mobile,ios,android,expo,iOS Developer
+cassandra,dynamodb,nosql,distributed,database,Database Administrator
+python,airflow,etl,data pipeline,sql,dbt,Data Analyst
+go,golang,microservices,docker,kubernetes,grpc,Backend Developer
+vue,nuxt,javascript,css,html,typescript,Frontend Developer
+machine learning,xgboost,lightgbm,python,gradient boost,Data Scientist
+pytorch,transformers,fine-tuning,llm,huggingface,NLP Engineer
+gcp,bigquery,dataflow,pubsub,cloud run,Cloud Architect
+jenkins,gitlab ci,github actions,docker,ansible,DevOps Engineer
+opencv,mediapipe,face recognition,python,deep learning,Computer Vision Engineer
+python,deep learning,generative ai,gan,diffusion,AI Researcher
+spring,hibernate,java,microservices,rest api,Backend Developer
+hive,impala,sql,hadoop,spark,Big Data Engineer
+wireshark,burp suite,metasploit,ethical hacking,exploit,Cybersecurity Engineer
+nft,defi,solidity,ethereum,polygon,Blockchain Developer
+jetpack compose,kotlin,android,mvvm,room,Android Developer
+swift,combine,swiftui,core data,ios,iOS Developer
+redis,postgresql,sql,performance tuning,indexing,Database Administrator
+python,xgboost,catboost,feature selection,ensemble,Data Scientist
+graphql,apollo,nodejs,react,javascript,Full Stack Developer
+python,celery,rabbitmq,redis,task queue,Backend Developer
+prometheus,grafana,monitoring,elk,devops,DevOps Engineer
+python,reinforcement learning,openai,gym,policy gradient,AI Researcher
+databricks,delta lake,spark,python,big data,Big Data Engineer
+zero trust,siem,threat hunting,incident response,cybersecurity,Cybersecurity Engineer
+figma,component design,design system,accessibility,ux,UI/UX Designer
+python,deep learning,cnn,rnn,lstm,AI Engineer
+pandas,seaborn,matplotlib,python,eda,analysis,Data Analyst
+django,python,celery,postgresql,rest framework,Backend Developer
+sentiment analysis,nlp,python,bert,text mining,NLP Engineer
+image segmentation,pytorch,unet,opencv,semantic,Computer Vision Engineer
+sql,plsql,stored procedures,oracle,tuning,Database Administrator
+hyperledger,fabric,blockchain,golang,chaincode,Blockchain Developer
+spark streaming,kafka,scala,big data,flink,Big Data Engineer
+owasp,sql injection,xss,web security,penetration testing,Cybersecurity Engineer
+dbt,snowflake,data warehouse,sql,analytics,Data Analyst
+huggingface,gpt,llm,fine-tuning,prompt engineering,NLP Engineer
+react,storybook,jest,testing,javascript,Frontend Developer
+fastapi,python,pydantic,sqlalchemy,postgresql,Backend Developer
+yolo,faster rcnn,object detection,pytorch,detection,Computer Vision Engineer
+python,automl,neural architecture,deep learning,hyperparameter,AI Researcher
+room,workmanager,kotlin,android,viewmodel,Android Developer
+coremotion,arkit,swift,ios,augmented reality,iOS Developer
+elasticsearch,kibana,logstash,elk,devops,DevOps Engineer
+aws,cdk,cloudformation,serverless,microservices,Cloud Architect
+python,machine learning,classification,regression,clustering,Data Scientist
+flutter,bloc,dart,firebase,android,Android Developer
+react native,expo,typescript,redux,mobile,iOS Developer
+nosql,hbase,dynamodb,couchdb,redis,Database Administrator
+polygon,defi,yield farming,blockchain,solidity,Blockchain Developer
+python,statistics,ab testing,experiment,analytics,Product Analyst
+java,spring,maven,junit,microservices,Java Developer
+game development,unity,c sharp,3d,physics,Game Developer
+c sharp,dotnet,asp net,entity framework,sql server,.NET Developer
+php,laravel,mysql,rest api,composer,PHP Developer
+wordpress,php,elementor,woocommerce,seo,WordPress Developer
+r,ggplot2,statistics,data analysis,visualization,R Developer
+matlab,simulink,signal processing,control systems,MATLAB Engineer
+embedded systems,c,microcontroller,arduino,rtos,Embedded Engineer
+robotics,ros,python,slam,sensors,kinematics,Robotics Engineer
+quantum computing,qiskit,quantum algorithms,python,linear algebra,Quantum Engineer
+ar vr,unity,unreal,c sharp,3d modeling,AR/VR Developer
+technical writing,documentation,api docs,markdown,communication,Technical Writer
+scrum,agile,jira,product roadmap,stakeholder management,Project Manager
+seo,google analytics,content marketing,social media,digital marketing,Digital Marketer
+python,machine learning,tensorflow,neural networks,deep learning,AI Engineer
+javascript,nodejs,express,mongodb,rest api,Backend Developer
+react,html,css,javascript,responsive,Frontend Developer
+sql,data analysis,excel,reporting,visualization,Data Analyst
+aws,docker,linux,automation,cloud,DevOps Engineer
+android,kotlin,mobile,firebase,ui,Android Developer
+ios,swift,mobile,xcode,ui,iOS Developer
+figma,design,prototyping,ui,ux,UI/UX Designer
+python,pandas,statistics,analysis,jupyter,Data Scientist
+nlp,python,text,classification,machine learning,NLP Engineer
+blockchain,solidity,web3,ethereum,contracts,Blockchain Developer

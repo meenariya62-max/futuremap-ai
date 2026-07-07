@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register – FutureMap AI</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="auth-layout">
+    <div class="auth-left">
+      <div class="glow-orb orb-1"></div>
+      <div class="glow-orb orb-2"></div>
+      <div style="position:relative;z-index:1;max-width:420px">
+        <div style="font-size:64px;margin-bottom:24px;animation:float 4s ease-in-out infinite">🚀</div>
+        <h2 style="font-family:var(--font-display);font-size:40px;font-weight:800;letter-spacing:-0.03em;margin-bottom:16px">Start Your <br><span style="background:var(--gradient-3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Career Journey</span></h2>
+        <p style="color:var(--text-secondary);font-size:16px;line-height:1.7;margin-bottom:32px">Join thousands of students who used FutureMap AI to discover their ideal tech career.</p>
+        <div style="display:flex;gap:16px">
+          <div style="background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius);padding:20px;flex:1;text-align:center">
+            <div style="font-family:var(--font-display);font-size:28px;font-weight:800;color:#6c63ff">10k+</div>
+            <div style="font-size:13px;color:var(--text-muted);margin-top:4px">Predictions Made</div>
+          </div>
+          <div style="background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius);padding:20px;flex:1;text-align:center">
+            <div style="font-family:var(--font-display);font-size:28px;font-weight:800;color:#00e5a0">16+</div>
+            <div style="font-size:13px;color:var(--text-muted);margin-top:4px">Career Tracks</div>
+          </div>
+          <div style="background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius);padding:20px;flex:1;text-align:center">
+            <div style="font-family:var(--font-display);font-size:28px;font-weight:800;color:#00d4ff">92%</div>
+            <div style="font-size:13px;color:var(--text-muted);margin-top:4px">Accuracy</div>
+          </div>
+        </div>
+      </div>
+      <style>
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+      </style>
+    </div>
+
+    <div class="auth-right">
+      <div class="auth-form-wrap">
+        <a href="dashboard.html" class="logo-mark" style="text-decoration:none;display:flex;align-items:center;gap:10px;margin-bottom:36px">
+          <div class="logo-icon">🗺️</div>
+          <span class="logo-text">Future<span>Map</span> AI</span>
+        </a>
+
+        <h2 class="auth-title">Create Account</h2>
+        <p class="auth-subtitle">Free forever. No credit card needed.</p>
+
+        <div id="registerMsg" class="alert" style="display:none"></div>
+
+        <form id="registerForm">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input class="form-input" type="text" id="name" placeholder="Riya Sharma" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input class="form-input" type="email" id="email" placeholder="riya@example.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input class="form-input" type="password" id="password" placeholder="Min. 6 characters" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Your Skills <span style="color:var(--text-muted);text-transform:none;font-size:11px">(optional, comma separated)</span></label>
+            <input class="form-input" type="text" id="skills" placeholder="python, machine learning, javascript..." />
+          </div>
+          <button class="btn btn-primary btn-full btn-lg" type="submit" id="registerBtn">Create Account</button>
+        </form>
+
+        <div class="auth-link">Already have an account? <a href="login.html">Sign in</a></div>
+      </div>
+    </div>
+  </div>
+  <script src="js/auth.js"></script>
+</body>
+</html>
